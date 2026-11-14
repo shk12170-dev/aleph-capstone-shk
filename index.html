@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>김상혁 ALEPH 포트폴리오</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: 한 장짜리 문서형 — 좌측 좁은 라벨 열 + 우측 본문, 위쪽에 이름·핵심 수치 */
+:root {
+  --bg: #f3f5f6;
+  --paper: #ffffff;
+  --fg: #14232b;
+  --muted: #5a6b74;
+  --line: #d9e0e4;
+  --accent: #0b7a75;
+  --accent-soft: #e0f1ef;
+  --warn: #a8531a;
+  --warn-soft: #fbece0;
+  --font-body: "Noto Sans KR", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c1519; --paper: #121e24; --fg: #e6eef1; --muted: #93a6ae; --line: #25363e;
+    --accent: #4fd1c5; --accent-soft: #14312f; --warn: #f0a46b; --warn-soft: #33241a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c1519; --paper: #121e24; --fg: #e6eef1; --muted: #93a6ae; --line: #25363e;
+  --accent: #4fd1c5; --accent-soft: #14312f; --warn: #f0a46b; --warn-soft: #33241a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg); font-family: var(--font-body);
+  font-size: 15px; line-height: 1.7; word-break: keep-all;
+  padding-block: 32px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.page { max-width: 880px; margin: 0 auto; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+header { padding: 36px 40px 28px; border-bottom: 1px solid var(--line); }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+h1 { font-size: 34px; line-height: 1.25; font-weight: 900; margin: 0 0 6px; text-wrap: balance; }
+.lead { color: var(--muted); margin: 0; max-width: 60ch; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 18px 0 0; padding: 0; list-style: none; }
+.chips li { font-size: 12px; font-weight: 500; padding: 2px 10px; border: 1px solid var(--line); border-radius: 99px; color: var(--muted); }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--line); }
+.stat { padding: 20px 40px; border-right: 1px solid var(--line); min-width: 0; }
+.stat:last-child { border-right: 0; }
+.stat b { display: block; font-family: var(--font-mono); font-size: 30px; line-height: 1.2; color: var(--accent); }
+.stat span { font-size: 13px; color: var(--muted); display: block; margin-top: 2px; }
+section { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 8px 28px; padding: 26px 40px; border-bottom: 1px solid var(--line); }
+section:last-of-type { border-bottom: 0; }
+h2 { font-size: 13px; font-weight: 700; letter-spacing: .04em; color: var(--muted); margin: 4px 0 0; text-transform: uppercase; }
+.body > *:first-child { margin-top: 0; }
+.body p { margin: 0 0 10px; }
+.body h3 { font-size: 16px; margin: 0 0 4px; font-weight: 700; }
+.body ul { margin: 6px 0 0; padding-left: 18px; }
+.body li { margin-bottom: 4px; }
+.flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: stretch; margin: 12px 0 14px; padding: 0; list-style: none; }
+.flow li { flex: 1 1 110px; min-width: 0; background: var(--accent-soft); border-radius: 4px; padding: 8px 10px; font-size: 13px; line-height: 1.45; margin: 0; }
+.flow li b { display: block; font-size: 12px; color: var(--accent); font-family: var(--font-mono); }
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0; }
+.compare > div { padding: 12px 14px; border-radius: 4px; font-size: 14px; min-width: 0; }
+.compare .bad { background: var(--warn-soft); }
+.compare .good { background: var(--accent-soft); }
+.compare strong { display: block; margin-bottom: 2px; }
+.bad strong { color: var(--warn); }
+.good strong { color: var(--accent); }
+.note { font-size: 13px; color: var(--muted); }
+footer { padding: 16px 40px 22px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); }
+@media (max-width: 680px) {
+  header, section, footer { padding-left: 20px; padding-right: 20px; }
+  section { grid-template-columns: 1fr; gap: 6px; }
+  .stats { grid-template-columns: 1fr; }
+  .stat { border-right: 0; border-bottom: 1px solid var(--line); padding: 14px 20px; }
+  .stat:last-child { border-bottom: 0; }
+  .compare { grid-template-columns: 1fr; }
+  h1 { font-size: 27px; }
+}
+</style>
+</head>
+<body>
+
+
+<main class="page">
+  <header>
+    <p class="eyebrow">Team NoBugs · Capstone 2026.10–11</p>
+    <h1>김상혁<br>보안 관제 · 자동 대응 프로젝트 ALEPH</h1>
+    <p class="lead">가상 공공기관 해담시청의 민원포털을 대상으로, 공격을 찾아 자동으로 막고 정상 사용자는 계속 쓸 수 있는지 직접 시험했습니다. 저는 경보·기록 담당(C)으로 Wazuh와 보안 대시보드를 만들고, 최종 발표에서 S8 케이스를 시연했습니다.</p>
+    <ul class="chips">
+      <li>Wazuh 4.9</li><li>Graylog</li><li>n8n</li><li>pfSense</li><li>Kali Linux</li><li>Docker</li><li>Python</li>
+    </ul>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><b>37.9초</b><span>S8 마지막 입력부터 포털 차단까지 (11/03)</span></div>
+    <div class="stat"><b>403 · 200</b><span>공격 출발지는 거절, 정상 사용자는 접속 유지</span></div>
+    <div class="stat"><b>1 / 2</b><span>첫 실패를 숨기지 않고 포함한 S8 자동 대응 집계</span></div>
+  </div>
+
+  <section>
+    <h2>역할</h2>
+    <div class="body">
+      <p>4인 팀의 PC 4대 중 <strong>경보·기록 PC</strong>를 맡았습니다. 탐지는 Graylog, 자동 조치는 n8n이 하고, 저는 그 결과를 사건 하나의 흐름으로 모아 확인하는 쪽을 책임졌습니다.</p>
+      <ul>
+        <li><strong>Wazuh</strong>: 포털 서버 에이전트의 경보를 모아 Graylog로 전달하는 경로 구성</li>
+        <li><strong>보안 대시보드</strong>: 티켓 저장소, API, 사건 목록·상세 화면을 직접 구현</li>
+        <li><strong>S8 시연</strong>: 11/6 최종 발표에서 S8과 대시보드 파트를 7분 30초간 발표</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>S8 구현·검증</h2>
+    <div class="body">
+      <h3>페이지를 훑고 로그인을 시도한 출발지를 막았습니다</h3>
+      <p>같은 출발지에서 15분 안에 <strong>없는 페이지 탐색(404)</strong>과 <strong>로그인 실패(401)</strong>가 함께 나오면 침입 시도로 보고, 포털에서 그 출발지의 접근을 차단합니다. 페이지 주소를 한 번 틀린 것만으로는 막지 않도록 서로 다른 두 신호를 묶었습니다.</p>
+      <ol class="flow">
+        <li><b>1 공격</b>Kali에서 스캔·로그인 시도</li>
+        <li><b>2 탐지</b>Graylog 규칙 (포털 로그)</li>
+        <li><b>3 대응</b>n8n이 포털 IP 차단</li>
+        <li><b>4 확인</b>재접속 403, 정상 200</li>
+        <li><b>5 기록</b>티켓 생성, 사람이 해제·종료</li>
+      </ol>
+      <p>11/03 성공 회차에서 마지막 입력부터 포털 차단까지 37.9초가 걸렸습니다. 차단 뒤 공격 출발지는 403, 정상 출발지는 로그인과 민원 목록 200으로 확인했습니다. 해제는 사람이 연결했고, 해제 뒤 재접속 200도 확인했습니다.</p>
+      <p class="note">S8의 탐지 신호는 포털 로그입니다. Wazuh가 S8을 탐지한 것은 아닙니다.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>문제 해결</h2>
+    <div class="body">
+      <h3>탐지는 됐는데 차단이 안 됐습니다</h3>
+      <div class="compare">
+        <div class="bad"><strong>첫 시도: 연결 실패</strong>탐지와 알림은 발생했지만 n8n에 자동 대응을 받을 웹훅 주소가 등록되지 않아 차단과 티켓으로 이어지지 않았습니다.</div>
+        <div class="good"><strong>수정 후: 효과 확인</strong>연결 경로를 다시 등록하고 실제 차단, 정상 접근, 해제 뒤 재접속까지 같은 흐름을 끝까지 실행해 확인했습니다.</div>
+      </div>
+      <p>이 실패는 공격을 놓친 미탐이 아니라 대응 연결 실패로 분류했고, 정량평가 분모에 그대로 넣었습니다. 이후 확인 방식을 <strong>탐지 화면만 보지 않고 조치와 사건 기록까지 대조</strong>하도록 바꿨습니다. S8은 이 첫 실패를 포함해 2건 중 1건 성공으로 집계했습니다.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>보안 대시보드</h2>
+    <div class="body">
+      <h3>사건의 처리 과정을 한곳에 모았습니다</h3>
+      <ul>
+        <li><strong>사건 찾기</strong>: 계정·출발지·케이스로 어떤 사건인지 확인</li>
+        <li><strong>효과 구분</strong>: 조치 명령의 성공과 실제 차단 결과를 따로 표시</li>
+        <li><strong>남은 회복 확인</strong>: 해제되지 않은 조치와 사건 종료 조건 점검</li>
+      </ul>
+      <p style="margin-top:10px">티켓을 닫는 것은 기록의 종료일 뿐이며, 실제 복구는 따로 확인합니다. 대시보드는 직접 차단 해제나 비밀번호 재설정을 실행하지 않고, 탐지는 Graylog, 대응은 n8n이 맡도록 역할을 나눴습니다. 발표에 쓴 화면은 구조 설명용 합성 예시이며 실측 수치가 아닙니다.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Wazuh</h2>
+    <div class="body">
+      <h3>포털 서버의 경보를 Graylog로 보냈습니다</h3>
+      <p>포털 서버 에이전트의 경보를 모아 Graylog로 전달하는 경로를 구성했습니다. 1,400바이트가 넘는 UDP 전송이 유실되는 원인을 크기별 시험으로 찾아 TCP 중계로 해결했습니다. 파일 변경 감시는 S7에서 활용했습니다.</p>
+      <p class="note">이번 네 케이스(S1·S4·S8·S10)의 주된 판단 신호는 포털 로그와 pfSense 기록이며, Wazuh가 탐지한 것은 아닙니다.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>한계와 다음 과제</h2>
+    <div class="body">
+      <ul>
+        <li>S8 결과는 11/03 회차 기준의 작은 표본이며 실제 운영 성공률을 뜻하지 않습니다.</li>
+        <li>차단 해제는 모두 사람이 연결했습니다. 자동 원복은 확인하지 못했습니다.</li>
+        <li>S7(홈페이지 변조)은 탐지 티켓과 수동 복구 시험까지만 확인했고, 자동 복구는 켜지 않았습니다.</li>
+        <li>정상 사용자 장시간 시험과 경계 시험은 미완료라 오탐률을 단정하지 않았습니다.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>1조 NoBugs · 해담시청 민원포털 통합 보안 관제와 자동 대응(ALEPH) · 최종 발표 2026.11.06 · 가상 기관과 시험용 계정으로 수행</footer>
+</main>
+</body>
+</html>
