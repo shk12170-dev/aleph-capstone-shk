@@ -61,7 +61,7 @@ h2 { font-size: 13px; font-weight: 700; letter-spacing: .04em; color: var(--mute
 .body ul { margin: 6px 0 0; padding-left: 18px; }
 .body li { margin-bottom: 4px; }
 .flow { display: flex; flex-wrap: wrap; gap: 6px; align-items: stretch; margin: 12px 0 14px; padding: 0; list-style: none; }
-.flow li { flex: 1 1 110px; min-width: 0; background: var(--accent-soft); border-radius: 4px; padding: 8px 10px; font-size: 13px; line-height: 1.45; margin: 0; }
+.flow li { flex: 1 1 88px; min-width: 0; background: var(--accent-soft); border-radius: 4px; padding: 8px 10px; font-size: 13px; line-height: 1.45; margin: 0; }
 .flow li b { display: block; font-size: 12px; color: var(--accent); font-family: var(--font-mono); }
 .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 10px 0; }
 .compare > div { padding: 12px 14px; border-radius: 4px; font-size: 14px; min-width: 0; }
@@ -81,87 +81,117 @@ footer { padding: 16px 40px 22px; font-size: 12px; color: var(--muted); border-t
   .compare { grid-template-columns: 1fr; }
   h1 { font-size: 27px; }
 }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 10px 0 12px; }
+th, td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12px; color: var(--muted); font-weight: 700; }
+td b { font-family: var(--font-mono); }
+.ok { color: var(--accent); font-weight: 700; white-space: nowrap; }
+.part { font-size: 12px; font-family: var(--font-mono); color: var(--accent); letter-spacing: .06em; margin: 0 0 4px; display: block; }
+.scroll { overflow-x: auto; }
+a { color: var(--accent); }
+@media (max-width: 680px) { .hide-sm { display: none; } }
 </style>
 </head>
 <body>
 
-
 <main class="page">
   <header>
-    <p class="eyebrow">Team NoBugs · Capstone 2026.10–11</p>
+    <p class="eyebrow">Team NoBugs Capstone → 1인 전체 재구현 · 2026.10–11</p>
     <h1>김상혁<br>보안 관제 · 자동 대응 프로젝트 ALEPH</h1>
-    <p class="lead">가상 공공기관 해담시청의 민원포털을 대상으로, 공격을 찾아 자동으로 막고 정상 사용자는 계속 쓸 수 있는지 직접 시험했습니다. 저는 경보·기록 담당(C)으로 Wazuh와 보안 대시보드를 만들고, 최종 발표에서 S8 케이스를 시연했습니다.</p>
+    <p class="lead">가상 공공기관 해담시청의 민원포털을 공격하면 탐지하고, 자동으로 막고, 정상 사용자는 계속 쓰는지 확인한 뒤 원래대로 되돌리는 시스템입니다. 팀 프로젝트에서는 C 자리(Wazuh·보안 대시보드·S8 시연)를 맡았고, 종료 뒤에는 <strong>팀원 4명이 PC 4대로 나눠 만든 전체를 혼자, PC 한 대에서 다시 구현</strong>했습니다.</p>
     <ul class="chips">
-      <li>Wazuh 4.9</li><li>Graylog</li><li>n8n</li><li>pfSense</li><li>Kali Linux</li><li>Docker</li><li>Python</li>
+      <li>Wazuh 4.9</li><li>Graylog 6.1</li><li>n8n</li><li>pfSense 2.7.2</li><li>OpenVPN</li><li>Kali Linux</li><li>Docker</li><li>Python · FastAPI</li><li>React</li>
     </ul>
   </header>
 
   <div class="stats">
-    <div class="stat"><b>37.9초</b><span>S8 마지막 입력부터 포털 차단까지 (11/03)</span></div>
-    <div class="stat"><b>403 · 200</b><span>공격 출발지는 거절, 정상 사용자는 접속 유지</span></div>
-    <div class="stat"><b>1 / 2</b><span>첫 실패를 숨기지 않고 포함한 S8 자동 대응 집계</span></div>
+    <div class="stat"><b>4대 → 1대</b><span>팀 PC 4대 구성을 PC 한 대에 그대로 재배치</span></div>
+    <div class="stat"><b>6 / 6</b><span>S1·S4·S7·S8·S10·S12 모두 탐지부터 대응까지 동작 확인</span></div>
+    <div class="stat"><b>30 / 30</b><span>새로 설계한 버전에서 6케이스 × 5회 반복 측정 결과</span></div>
   </div>
 
   <section>
-    <h2>역할</h2>
+    <h2>한눈에 보기</h2>
     <div class="body">
-      <p>4인 팀의 PC 4대 중 <strong>경보·기록 PC</strong>를 맡았습니다. 탐지는 Graylog, 자동 조치는 n8n이 하고, 저는 그 결과를 사건 하나의 흐름으로 모아 확인하는 쪽을 책임졌습니다.</p>
-      <ul>
-        <li><strong>Wazuh</strong>: 포털 서버 에이전트의 경보를 모아 Graylog로 전달하는 경로 구성</li>
-        <li><strong>보안 대시보드</strong>: 티켓 저장소, API, 사건 목록·상세 화면을 직접 구현</li>
-        <li><strong>S8 시연</strong>: 11/6 최종 발표에서 S8과 대시보드 파트를 7분 30초간 발표</li>
-      </ul>
+      <div class="scroll"><table>
+        <tr><th>단계</th><th>기간</th><th>무엇을</th></tr>
+        <tr><td><b>① 팀 프로젝트</b></td><td>10/19–11/06</td><td>4인 팀의 C 자리. Wazuh, 보안 대시보드, 최종 발표 S8 시연</td></tr>
+        <tr><td><b>② 1인 재구성</b></td><td>11/10–11/16</td><td>팀 코드를 들여와 팀과 같은 주소·VPN 구조를 PC 한 대에 세우고 6케이스 실측</td></tr>
+        <tr><td><b>③ 1인 새 설계</b></td><td>11/10–11/13</td><td>팀 코드를 보지 않고 명세만으로 새로 작성. 대응 엔진을 Python으로 직접 구현</td></tr>
+      </table></div>
+      <p class="note">팀에서 한 일과 혼자 다시 한 일을 섞지 않았습니다. ②·③의 수치는 모두 개인 PC에서 직접 잰 값입니다.</p>
     </div>
   </section>
 
   <section>
-    <h2>S8 구현·검증</h2>
+    <h2>① 팀 프로젝트</h2>
     <div class="body">
-      <h3>페이지를 훑고 로그인을 시도한 출발지를 막았습니다</h3>
-      <p>같은 출발지에서 15분 안에 <strong>없는 페이지 탐색(404)</strong>과 <strong>로그인 실패(401)</strong>가 함께 나오면 침입 시도로 보고, 포털에서 그 출발지의 접근을 차단합니다. 페이지 주소를 한 번 틀린 것만으로는 막지 않도록 서로 다른 두 신호를 묶었습니다.</p>
+      <h3>경보·기록 PC(C)를 맡았습니다</h3>
+      <ul>
+        <li><strong>Wazuh</strong>: 포털 서버의 경보를 Graylog로 전달. 1,400바이트가 넘는 UDP 경보가 사라지는 문제를 TCP 중계로 해결</li>
+        <li><strong>보안 대시보드</strong>: 티켓 저장소·API·사건 목록과 상세 화면 구현. 조치 성공과 실제 차단 효과를 따로 표시</li>
+        <li><strong>S8 시연</strong>: 15분 안에 같은 출발지에서 404와 401이 겹치면 포털 차단. 11/03 성공 회차에서 마지막 입력부터 차단까지 <strong>37.9초</strong>, 공격자 403·정상 사용자 200 확인</li>
+      </ul>
+      <div class="compare">
+        <div class="bad"><strong>첫 시도: 연결 실패</strong>탐지는 됐지만 n8n 웹훅 주소가 등록되지 않아 차단과 티켓으로 이어지지 않았습니다.</div>
+        <div class="good"><strong>수정 후: 끝까지 확인</strong>연결을 다시 등록하고 차단·정상 접근·해제까지 확인했습니다. 첫 실패도 숨기지 않고 1/2로 집계했습니다.</div>
+      </div>
+      <p class="note">팀에서 S7(홈페이지 변조)은 수동 복구 시험까지만 했고, 차단 해제는 사람이 했습니다. 이 빈칸이 개인 재구현의 출발점이 됐습니다.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>② 1인 재구성</h2>
+    <div class="body">
+      <span class="part">haedam-soar-portfolio</span>
+      <h3>팀 4대 구성을 PC 한 대에 그대로 세웠습니다</h3>
+      <p>pfSense 가상 방화벽(네트워크 카드 4개)과 OpenVPN을 직접 구성하고, 포털·DB 가상 PC를 무인 설치하고, Graylog·n8n·Wazuh·티켓 저장소를 Docker로 띄웠습니다. 팀과 <strong>같은 주소와 같은 VPN(10.250.0.0/24) 구조</strong>를 유지해서, 팀원 4명의 역할을 혼자 모두 거쳐 봤습니다.</p>
+      <div class="scroll"><table>
+        <tr><th>케이스</th><th>공격</th><th>자동 대응</th><th>결과 (11/16)</th></tr>
+        <tr><td><b>S1</b></td><td>로그인 무차별 대입</td><td>IP 차단</td><td class="ok">403·200 확인 → 해제 → 종료</td></tr>
+        <tr><td><b>S4</b></td><td>로그인 실패 뒤 성공</td><td>계정 잠금 + 세션 회수</td><td class="ok">비밀번호 재설정 원복 → 종료</td></tr>
+        <tr><td><b>S8</b></td><td>스캔 뒤 로그인 시도</td><td>포털 IP 차단</td><td class="ok">403·200 확인 → 해제 → 종료</td></tr>
+        <tr><td><b>S10</b></td><td>3단계 침입 연쇄</td><td>포털 + pfSense 차단</td><td class="ok">경계 → 포털 순서로 해제</td></tr>
+        <tr><td><b>S7</b></td><td>홈페이지 변조</td><td>Wazuh 자동 복구·격리</td><td class="ok">원본 해시로 복구 확인</td></tr>
+        <tr><td><b>S12</b></td><td>요청 폭주</td><td>서비스 상태 판정</td><td class="ok">느려지지 않아 차단 안 함(정상)</td></tr>
+      </table></div>
+      <p>S1 실측: 조건이 채워진 뒤 차단까지 약 3.7초, 차단 뒤 효과 확인까지 38초였고 정상 사용자 오차단은 0건이었습니다. <strong>팀에서 끝내지 못한 Wazuh 자동 복구(S7)</strong>를 이번에 설치·등록해, 변조된 파일은 원본으로 되돌리고 새로 심은 파일은 격리하는 것까지 확인했습니다.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>③ 1인 새 설계</h2>
+    <div class="body">
+      <span class="part">nobugs-soar</span>
+      <h3>팀 코드를 보지 않고 처음부터 다시 만들었습니다</h3>
+      <p>팀은 대응을 n8n 화면에서 조립했지만, 이 버전은 대응 로직을 <strong>직접 만든 Python 대응 엔진</strong>에 모았습니다. 엔진은 알림을 받으면 티켓을 만들고, 차단하고, 실제로 막혔는지 403으로 확인하고, 정해진 시간이 지나면 자동으로 원복합니다.</p>
       <ol class="flow">
-        <li><b>1 공격</b>Kali에서 스캔·로그인 시도</li>
-        <li><b>2 탐지</b>Graylog 규칙 (포털 로그)</li>
-        <li><b>3 대응</b>n8n이 포털 IP 차단</li>
-        <li><b>4 확인</b>재접속 403, 정상 200</li>
-        <li><b>5 기록</b>티켓 생성, 사람이 해제·종료</li>
+        <li><b>1 공격</b>공격 스크립트</li>
+        <li><b>2 탐지</b>Graylog · Wazuh</li>
+        <li><b>3 조치</b>대응 엔진</li>
+        <li><b>4 반영 확인</b>차단 목록 재조회</li>
+        <li><b>5 효과 확인</b>실제 403</li>
+        <li><b>6 원복</b>시간 지나면 자동</li>
       </ol>
-      <p>11/03 성공 회차에서 마지막 입력부터 포털 차단까지 37.9초가 걸렸습니다. 차단 뒤 공격 출발지는 403, 정상 출발지는 로그인과 민원 목록 200으로 확인했습니다. 해제는 사람이 연결했고, 해제 뒤 재접속 200도 확인했습니다.</p>
-      <p class="note">S8의 탐지 신호는 포털 로그입니다. Wazuh가 S8을 탐지한 것은 아닙니다.</p>
+      <ul>
+        <li>6케이스 × 5회 반복 측정 <strong>30회 모두 확인</strong>. 공격부터 효과 확인까지 대체로 60초 안</li>
+        <li>자동 시험 369건, 화면 시험 23건, 브라우저 시험 7건 통과</li>
+        <li>클릭 한 번 설치 스크립트로 새 PC에서도 같은 환경을 재현</li>
+      </ul>
     </div>
   </section>
 
   <section>
     <h2>문제 해결</h2>
     <div class="body">
-      <h3>탐지는 됐는데 차단이 안 됐습니다</h3>
-      <div class="compare">
-        <div class="bad"><strong>첫 시도: 연결 실패</strong>탐지와 알림은 발생했지만 n8n에 자동 대응을 받을 웹훅 주소가 등록되지 않아 차단과 티켓으로 이어지지 않았습니다.</div>
-        <div class="good"><strong>수정 후: 효과 확인</strong>연결 경로를 다시 등록하고 실제 차단, 정상 접근, 해제 뒤 재접속까지 같은 흐름을 끝까지 실행해 확인했습니다.</div>
-      </div>
-      <p>이 실패는 공격을 놓친 미탐이 아니라 대응 연결 실패로 분류했고, 정량평가 분모에 그대로 넣었습니다. 이후 확인 방식을 <strong>탐지 화면만 보지 않고 조치와 사건 기록까지 대조</strong>하도록 바꿨습니다. S8은 이 첫 실패를 포함해 2건 중 1건 성공으로 집계했습니다.</p>
-    </div>
-  </section>
-
-  <section>
-    <h2>보안 대시보드</h2>
-    <div class="body">
-      <h3>사건의 처리 과정을 한곳에 모았습니다</h3>
       <ul>
-        <li><strong>사건 찾기</strong>: 계정·출발지·케이스로 어떤 사건인지 확인</li>
-        <li><strong>효과 구분</strong>: 조치 명령의 성공과 실제 차단 결과를 따로 표시</li>
-        <li><strong>남은 회복 확인</strong>: 해제되지 않은 조치와 사건 종료 조건 점검</li>
+        <li><strong>같은 공격에 차단이 두 번</strong>: S8과 S10 규칙이 동시에 울려 차단이 중복 기록됐습니다. 엔진이 한 번에 하나씩 판단하도록 순서를 묶어 해결했습니다.</li>
+        <li><strong>에러 없이 조용히 실패</strong>: S7 알림이 만들어지지 않았는데 오류도 없었습니다. Graylog가 출발지 IP를 필수로 요구했기 때문이었고, 끝까지 따라가 고쳤습니다.</li>
+        <li><strong>다음 회차 알림이 안 옴</strong>: Graylog의 재알림 대기 시간(30분)이 사람별이 아니라 규칙 전체에 걸리는 것을 확인하고 시험 간격을 다시 계획했습니다.</li>
+        <li><strong>Wazuh 설정 거부</strong>: 자동 복구 설정 값이 4.9 버전에서 거부되는 원인을 찾아 수정하고, 재설치해도 남도록 저장소에 반영했습니다.</li>
+        <li><strong>측정 도구도 시험 대상</strong>: 1회가 실패로 나온 원인이 시스템이 아니라 측정 방법이라는 것을 기록으로 밝혀 도구를 고친 뒤 다시 쟀습니다.</li>
       </ul>
-      <p style="margin-top:10px">티켓을 닫는 것은 기록의 종료일 뿐이며, 실제 복구는 따로 확인합니다. 대시보드는 직접 차단 해제나 비밀번호 재설정을 실행하지 않고, 탐지는 Graylog, 대응은 n8n이 맡도록 역할을 나눴습니다. 발표에 쓴 화면은 구조 설명용 합성 예시이며 실측 수치가 아닙니다.</p>
-    </div>
-  </section>
-
-  <section>
-    <h2>Wazuh</h2>
-    <div class="body">
-      <h3>포털 서버의 경보를 Graylog로 보냈습니다</h3>
-      <p>포털 서버 에이전트의 경보를 모아 Graylog로 전달하는 경로를 구성했습니다. 1,400바이트가 넘는 UDP 전송이 유실되는 원인을 크기별 시험으로 찾아 TCP 중계로 해결했습니다. 파일 변경 감시는 S7에서 활용했습니다.</p>
-      <p class="note">이번 네 케이스(S1·S4·S8·S10)의 주된 판단 신호는 포털 로그와 pfSense 기록이며, Wazuh가 탐지한 것은 아닙니다.</p>
     </div>
   </section>
 
@@ -169,15 +199,27 @@ footer { padding: 16px 40px 22px; font-size: 12px; color: var(--muted); border-t
     <h2>한계와 다음 과제</h2>
     <div class="body">
       <ul>
-        <li>S8 결과는 11/03 회차 기준의 작은 표본이며 실제 운영 성공률을 뜻하지 않습니다.</li>
-        <li>차단 해제는 모두 사람이 연결했습니다. 자동 원복은 확인하지 못했습니다.</li>
-        <li>S7(홈페이지 변조)은 탐지 티켓과 수동 복구 시험까지만 확인했고, 자동 복구는 켜지 않았습니다.</li>
-        <li>정상 사용자 장시간 시험과 경계 시험은 미완료라 오탐률을 단정하지 않았습니다.</li>
+        <li>②에서 pfSense 경계 차단은 설정까지는 됐지만 웹 연결을 실제로 끊지 못했습니다. 실제 차단은 포털 쪽에서 일어났습니다.</li>
+        <li>②의 S7 티켓은 복구는 끝났지만 종료 조건이 맞지 않아 "확인됨"에서 멈춰 있고, S1·S4·S8·S10의 해제 기록은 사람이 남겼습니다.</li>
+        <li>S12는 안전한 부하 안에서만 시험해 실제로 서비스가 느려지는 상황의 차단·회복은 보지 못했습니다.</li>
+        <li>③의 경계 차단은 상태만 흉내 내는 시뮬레이터이고, 엔진이 pfSense를 직접 조작하는 기능은 아직 없습니다.</li>
+        <li>새 케이스 S6(관리자 인증 실패)는 구현 중입니다.</li>
       </ul>
     </div>
   </section>
 
-  <footer>1조 NoBugs · 해담시청 민원포털 통합 보안 관제와 자동 대응(ALEPH) · 최종 발표 2026.11.06 · 가상 기관과 시험용 계정으로 수행</footer>
+  <section>
+    <h2>저장소</h2>
+    <div class="body">
+      <ul>
+        <li>1인 새 설계: <a href="https://github.com/shk12170-dev/nobugs-soar">github.com/shk12170-dev/nobugs-soar</a></li>
+        <li>1인 재구성: <a href="https://github.com/shk12170-dev/haedam-soar-portfolio">github.com/shk12170-dev/haedam-soar-portfolio</a></li>
+      </ul>
+      <p class="note">AI 코딩 도구(Claude Code)를 보조로 썼고, 설계 결정과 실측 확인은 직접 했습니다. 팀원 코드의 출처는 각 저장소의 출처 문서에 적었습니다.</p>
+    </div>
+  </section>
+
+  <footer>1조 NoBugs · 해담시청 민원포털 통합 보안 관제와 자동 대응(ALEPH) · 팀 최종 발표 2026.11.06 · 개인 재구현 2026.11 · 가상 기관과 시험용 계정으로 수행</footer>
 </main>
 </body>
 </html>
